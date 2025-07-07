@@ -1,0 +1,28 @@
+title: Sudo Privilege Escalation CVE-2025-32463
+id: 76376930-baa8-41dc-95fd-7df05d428859
+status: experimental
+description: Detects the use of the -R/--chroot key, which may indicate exploitation of the sudo vulnerability reported in CVE-2025-32463.
+references:
+    - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-32463
+    - https://www.sudo.ws/security/advisories/chroot_bug/
+    - https://www.stratascale.com/vulnerability-alert-CVE-2025-32463-sudo-chroot
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - attack.t1548.003
+    - cve.2025-32463
+author: Maksim Izotov
+date: 2025/07/07
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        Image|endswith: 'sudo'
+        CommandLine|contains:
+            - '-R'
+            - '--chroot'
+    condition: selection
+falsepositives:
+    - Legitimate use of root directory change as part of system administrators' tasks
+level: high
