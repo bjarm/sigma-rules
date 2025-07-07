@@ -1,0 +1,27 @@
+title: Sudo Privilege Escalation CVE-2025-32463 - Nsswitch.conf File Creation
+id: 05377c69-e32c-49e5-89cd-01ee442da462
+status: experimental
+description: Detects the creation of an nsswitch.conf file outside the /etc directory, which could indicate exploitation of the sudo vulnerability reported in CVE-2025-32463.
+references:
+    - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-32463
+    - https://www.sudo.ws/security/advisories/chroot_bug/
+    - https://www.stratascale.com/vulnerability-alert-CVE-2025-32463-sudo-chroot
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - attack.t1548.003
+    - cve.2025-32463
+author: Maksim Izotov
+date: 2025/07/07
+logsource:
+    category: file_event
+    product: linux
+detection:
+    is_nsswitch:
+        TargetFilename|endswith: 'nsswitch.conf'
+    in_real_etc_dir:
+        TargetFilename: '/etc/nsswitch.conf'
+    condition: is_nsswitch and not in_real_etc_dir
+falsepositives:
+    - Creation of copies as part of system administrators' tasks
+level: high
