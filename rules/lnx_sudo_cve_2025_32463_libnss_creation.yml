@@ -1,0 +1,25 @@
+title: Sudo Privilege Escalation CVE-2025-32463 - Libnss_ Directory Creation
+id: da7e402a-c34c-498e-a685-b47756be8859
+status: experimental
+description: Detects the creation of an libnss_ directory, which could indicate exploitation of the sudo vulnerability reported in CVE-2025-32463.
+references:
+    - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-32463
+    - https://www.sudo.ws/security/advisories/chroot_bug/
+    - https://www.stratascale.com/vulnerability-alert-CVE-2025-32463-sudo-chroot
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - attack.t1548.003
+    - cve.2025-32463
+author: Maksim Izotov
+date: 2025-07-08
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection:
+        TargetFilename|endswith: 'libnss_'
+    condition: selection
+falsepositives:
+    - Random matching of directory/file names
+level: medium
