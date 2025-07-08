@@ -12,10 +12,10 @@ tags:
     - attack.t1548.003
     - cve.2025-32463
 author: Maksim Izotov
-date: 2025/07/07
+date: 2025-07-07
 logsource:
-    category: file_event
     product: linux
+    category: file_event
 detection:
     is_nsswitch:
         TargetFilename|endswith: 'nsswitch.conf'
